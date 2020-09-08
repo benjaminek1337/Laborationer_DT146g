@@ -1,67 +1,119 @@
 <!DOCTYPE html>
+
+<!--
+Benjamin Ek
+beek1800   
+beek1800@student.miun.se
+-->
+
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body {
+            max-width: 960px;
+            margin: auto;
+            text-align: center;
+            background-image: url(img/clouds.png);
+            background-color: whitesmoke;
+        }
+
+        header {
+            background-color: lightblue;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        .header-content {
+            float: left;
+        }
+
+        .header-links{
+            float:right;
+            margin-top:60px;
+        }
+
+        .header-links a {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-decoration-line: none;
+            margin-right:10px;
+            background: white;
+            padding:7px;
+            border-radius: 5px;
+            font-size: small;
+        }
+
+        .logo {
+            float: left;
+            position: relative;
+            margin: 10px;
+            margin-right: 25px;
+        }
+
+        main {
+            padding: 20px;
+            background-color: white;
+            margin: 0px;
+            height: 100%;
+        }
+
+        .destinations {
+            background: #cae9e99d;
+            padding: 5px;
+            width: 40%;
+        }
+
+        .destinations ul {
+            text-align: left;
+        }
+
+        footer {
+            border-top: 1px;
+            border-top-style: solid;
+            background-color: lightblue;
+            padding: 10px;
+            margin: 0px;
+            position: fixed;
+            bottom: 0;
+            width: 960px;
+        }
+    </style>
 </head>
-<style>
-    body{
-    max-width:960px;
-    margin:auto;
-    text-align:center;
-    background-image: url(img/flygplan.png);
-    }
-
-    header{
-        background-color: lightblue;
-        padding:10px;
-    }
-    .nav{
-        
-        display: inline-block;
-        vertical-align: top;
-        margin-right: 20px;
-        margin-top: 15px; 
-    }
-    .logo{
-        
-        display: inline-block;
-        vertical-align: top;
-        margin-right: 20px;
-        margin-top: 15px; 
-    }
-    
-    main{
-        padding:20px;
-        background-color: white;
-        margin:0px;
-    }
-
-    footer{
-        border-top:1px;
-        border-top-style:solid;
-        background-color: lightblue;
-        padding:10px;
-        margin:0px;
-    }
-</style>
 
 <body>
     <header>
-        <div class="nav">
-            <img class="logo" src="img/flygplan.png" alt="Logga" width="125px" height="70px">
-            <a href="#">Länk 1</a>
-            <a href="#">Länk 2</a>
-            <a href="#">Länk 3</a>
-        </div>
+        <section class="header-content">
+            <img class="logo" src="img/catapult.png" alt="Logga" width="125px" height="70px">
+            <nav class="header-links">
+                <a href="#">Länk 1</a>
+                <a href="#">Länk 2</a>
+                <a href="#">Länk 3</a>
+                <a href="#">Länk 4</a>
+            </nav>
+        </section>
     </header>
     <main>
-        <h1>Välkommen till Allah Ahkbar Airlines</h1>
-        <p>Dags för en flygtur? Vi har destinationer så som Nangijala, Pardiset och, ej att förglömma, New York.</p>
+        <h1>Välkommen till Shoestring Airlines</h1>
+        <p>Dags för en flygtur? Då har du kommit rätt. Vi är det nya, häftiga och främst kostnadseffektiva alternativet
+            till andra
+            ledande aktörer på marknaden.
+        </p>
+        <aside class="destinations">
+            <h3>Våra destinationer inkluderar:</h3>
+            <ul>
+                <li>Sveg, Jämtland</li>
+                <li>Gällivare, Norrbotten</li>
+                <li>Hässleholm, Danmark</li>
+                <li>Och många fler...</li>
+            </ul>
+        </aside>
     </main>
     <footer>
-        © Allah Ahkbar Airlines, a subsidiary of Kelsos Bärs & Tungmek
+        © Shoestring Airlines, a subsidiary of Kelsos Bärs & Tungmek
     </footer>
 </body>
+
 </html>
