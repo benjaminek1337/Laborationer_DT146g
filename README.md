@@ -21,6 +21,8 @@ Steg 4. Skapade JS-filen, plockade <span>-elementet, kopierade in och gjorde min
         modifieringar i JS-koden för webbläsaridentifiering, samt lät textelemenetet
         byta text beroende på vilken webbläsare. Kör scriptet i <body onload="script()">
         inuti contact.html
+Steg 5. Insåg att jag inte kollat nog noggrannt på uppdragsbeskrivningen, så jag missade
+        att lägga till övriga sidor specificerade i uppgiften. Så jag åtgärdade det.
 
 ## Discussion / Diskussion
 Just media-types har jag ej arbetat med innan, då jag tidigare använt mig av bootstrap
