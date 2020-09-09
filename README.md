@@ -13,11 +13,11 @@ Steg 1. Jag bröt ut style-sektionen till en separat CSS-fil och hänvisar till 
         stilmallen istället för att ha all CSS i index.html
 Steg 2. Skapade sidan contakt.html, dedikerade en sektion i main till
         kontaktinformationen och gav den en klass för CSS-manipulering.
-        Gav även en <text> ett id för manipulering av JS senare.
+        Gav även en <span> ett id för manipulering av JS senare.
 Steg 3. Använde mig av mediatyper för att anpassa innehållet i kontaktsidan efter
         antingen skärmbredd, eller huruvida innehållet visas på en skärm eller i 
         printformat.
-Steg 4. Skapade JS-filen, plockade <text>-elementet, kopierade in och gjorde mindre
+Steg 4. Skapade JS-filen, plockade <span>-elementet, kopierade in och gjorde mindre
         modifieringar i JS-koden för webbläsaridentifiering, samt lät textelemenetet
         byta text beroende på vilken webbläsare. Kör scriptet i <body onload="script()">
         inuti contact.html
