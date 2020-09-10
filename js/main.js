@@ -30,6 +30,8 @@ function getBrowserName() {
     }
 }
 
+document.getElementById("browser-text").addEventListener("load", getBrowserName(), false);
+
 var imgPaths = new Array();
 var img = new Array();
 
