@@ -1,6 +1,7 @@
-body {
+html, body {
     font-family: Arial, Helvetica, sans-serif;
     max-width: 960px;
+    height:100%;
     margin: auto;
     text-align: center;
     background-image: url(../img/clouds.png);
@@ -45,11 +46,12 @@ main {
     padding: 20px;
     background-color: white;
     margin: 0px;
-    height: 100%;
+    min-height: 83vh;
 }
 
 .destinations {
     background: #cae9e99d;
+
     padding: 5px;
     width: 40%;
 }
@@ -66,11 +68,40 @@ footer {
     margin: 0px;
     position: fixed;
     bottom: 0;
-    width: 960px;
+    width: 940px;
 }
 
 .contact-info{
     padding:10px;
+}
+
+.thumbnails {
+    background-color:hsl(192, 100%, 94%);
+    width:49%;
+    float:left;
+    border-radius: 10px;
+
+    display:grid;
+    grid-template-columns: 190px 190px;
+    grid-row: auto auto;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+    padding-top:20px;
+    padding-bottom:20px;
+}
+
+.big-image {
+    background-color:hsl(192, 100%, 94%);
+    width:49%;
+    float:right;
+    border-radius: 10px;
+    padding-top:20px;
+    height:420px;
+}
+
+.image{
+    margin-left:20px;
+    cursor: pointer;
 }
 
 @media screen and (max-width:480px) {
