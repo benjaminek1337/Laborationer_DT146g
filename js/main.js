@@ -65,7 +65,6 @@ function imageSelector(imgThumb){
     document.getElementById("bigImage").src = imgsrc.src;        
 }
 
-
 document.getElementById("img1").addEventListener("click", function(){
     imageSelector(document.getElementById("img1").src)
 });
@@ -78,4 +77,5 @@ document.getElementById("img3").addEventListener("click", function(){
 document.getElementById("img4").addEventListener("click", function(){
     imageSelector(document.getElementById("img4").src)
 });
+
 window.addEventListener("load", imgPreloader(), false);
