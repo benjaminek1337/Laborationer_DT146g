@@ -30,7 +30,9 @@ function getBrowserName() {
     }
 }
 
-document.getElementById("browser-text").addEventListener("load", getBrowserName(), false);
+if(location.pathname === "/contact.html"){
+    document.getElementById("browser-text").addEventListener("load", getBrowserName(), false);
+}
 
 var imgPaths = new Array();
 var img = new Array();
@@ -67,17 +69,20 @@ function imageSelector(imgThumb){
     document.getElementById("bigImage").src = imgsrc.src;        
 }
 
-document.getElementById("img1").addEventListener("click", function(){
-    imageSelector(document.getElementById("img1").src)
-});
-document.getElementById("img2").addEventListener("click", function(){
-    imageSelector(document.getElementById("img2").src)
-});
-document.getElementById("img3").addEventListener("click", function(){
-    imageSelector(document.getElementById("img3").src)
-});
-document.getElementById("img4").addEventListener("click", function(){
-    imageSelector(document.getElementById("img4").src)
-});
-
-window.addEventListener("load", imgPreloader(), false);
+if(location.pathname === "/ourfleet.html" 
+|| location.pathname === "/employees.html"){
+    document.getElementById("img1").addEventListener("click", function(){
+        imageSelector(document.getElementById("img1").src)
+    });
+    document.getElementById("img2").addEventListener("click", function(){
+        imageSelector(document.getElementById("img2").src)
+    });
+    document.getElementById("img3").addEventListener("click", function(){
+        imageSelector(document.getElementById("img3").src)
+    });
+    document.getElementById("img4").addEventListener("click", function(){
+        imageSelector(document.getElementById("img4").src)
+    });
+    
+    window.addEventListener("load", imgPreloader(), false);
+}
