@@ -104,6 +104,84 @@ footer {
     cursor: pointer;
 }
 
+#booking-form {
+    background-color:hsl(192, 100%, 94%);
+    width:49%;
+    float:left;
+    border-radius: 10px;
+    padding-top:20px;
+    height:420px;
+}
+
+#seat-selector {
+    background-color:hsl(192, 100%, 94%);
+    width:49%;
+    float:right;
+    border-radius: 10px;
+    padding-top:20px;
+    height:420px;
+}
+
+.booking-h3 {
+    color: #555555;
+    margin:0;
+}
+
+.booking-hr {
+    margin-left:20px;
+    margin-right:20px;
+    color: gray;
+    border-top: 1px;
+}
+
+.form-input {
+    height:30px;
+    width:90%;
+    margin-bottom:10px;
+    font-size: large;
+    border-radius: 10px;
+    border-color: lightgray;
+}
+
+#btn-confirm {
+    height:30px;
+    color:black;
+    background-color: lightgreen;
+    font-size: 1rem;
+    font-weight: 100;
+    width:80px;
+    border-radius: 10px;
+    border:0;
+    cursor: pointer;
+}
+
+#btn-clear {
+    height:30px;
+    color:black;
+    background-color: lightgray;
+    font-size: 1rem;
+    font-weight: 100;
+    width:80px;
+    border-radius: 10px;
+    border:0;
+    cursor: pointer;
+}
+
+#seats {
+
+}
+
+.seat-btn {
+    cursor: pointer;
+    background-color: lightgreen;
+    height:45px;
+    width:50px;
+    font-size:1.4em;
+    border:none;
+    margin:2px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
 @media screen and (max-width:480px) {
     .contact-info{
         background-color:red;

@@ -29,8 +29,8 @@ function getBrowserName() {
         sBrowser.innerHTML = "unknown";
     }
 }
-
-if(location.pathname === "/contact.html"){
+console.log(location.pathname)
+if(window.location.pathname.includes("/contact.html")){
     document.getElementById("browser-text").addEventListener("load", getBrowserName(), false);
 }
 
@@ -38,20 +38,21 @@ var imgPaths = new Array();
 var img = new Array();
 
 function imgPreloader(){
-    if(location.pathname === "/ourfleet.html"){
+    if(window.location.pathname.includes("/ourfleet.html")){
+        
         imgPaths = [
-            "/img/plane1.jpg",
-            "/img/plane2.jpg",
-            "/img/plane3.jpg",
-            "/img/plane4.jpg"
+            "./img/plane1.jpg",
+            "./img/plane2.jpg",
+            "./img/plane3.jpg",
+            "./img/plane4.jpg"
         ]; 
     }
-    else if(location.pathname === "/employees.html"){
+    else if(location.pathname.includes("/employees.html")){
         imgPaths = [
-            "/img/employee1.jpg",
-            "/img/employee2.jpg",
-            "/img/employee3.jpg",
-            "/img/employee4.jpg"
+            "./img/employee1.jpg",
+            "./img/employee2.jpg",
+            "./img/employee3.jpg",
+            "./img/employee4.jpg"
         ]; 
     }
 
@@ -69,8 +70,8 @@ function imageSelector(imgThumb){
     document.getElementById("bigImage").src = imgsrc.src;        
 }
 
-if(location.pathname === "/ourfleet.html" 
-|| location.pathname === "/employees.html"){
+if(location.pathname.includes("/ourfleet.html") 
+|| location.pathname.includes("/employees.html")){
     document.getElementById("img1").addEventListener("click", function(){
         imageSelector(document.getElementById("img1").src)
     });
@@ -85,4 +86,61 @@ if(location.pathname === "/ourfleet.html"
     });
     
     window.addEventListener("load", imgPreloader(), false);
+}
+
+var booking = {
+    firstname,
+    lastname,
+    personnr
+}
+
+function write (){
+    var fn, ln, nr, fuckall;
+    fn = document.getElementById("firstname");
+    ln = document.getElementById("lastname");
+    nr = document.getElementById("personnr");
+    fuckall = document.getElementById("fuckall");
+
+    booking = {
+        firstname: fn.value,
+        lastname: ln.value,
+        personnr: nr.value
+    }
+
+    fuckall.innerHTML = booking.firstname + booking.lastname + booking.personnr;
+
+}
+
+function clearBooking (){
+    //Kod för att hiva allt
+};
+
+function generateSeatButtons(){
+    let container = document.querySelector("#seats");
+
+    for (let i = 0; i < 18; i++) {
+        let seatBtn = document.createElement("button");
+        let btnText = document.createTextNode((i+1).toString());
+        seatBtn.classList.add("seat-btn")
+        
+        seatBtn.appendChild(btnText);
+        container.appendChild(seatBtn);
+    }
+}
+
+document.getElementById("firstname").addEventListener("keyup", function(){
+    write();
+});
+document.getElementById("lastname").addEventListener("keyup", function(){
+    write();
+});
+document.getElementById("personnr").addEventListener("keyup", function(){
+    write();
+});
+
+if(window.location.pathname.includes("/booking.html")){
+    document.getElementById("btn-clear").addEventListener("click", function(){
+        clearBooking();
+    });
+    window.addEventListener("load", generateSeatButtons(), false);
 }
