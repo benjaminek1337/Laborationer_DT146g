@@ -1,3 +1,5 @@
+//Labb 2
+
 function getBrowserName() {
     let sBrowser = document.getElementById("browser-text");
 
@@ -33,6 +35,8 @@ console.log(location.pathname)
 if(window.location.pathname.includes("/contact.html")){
     document.getElementById("browser-text").addEventListener("load", getBrowserName(), false);
 }
+
+//Labb 3
 
 var imgPaths = new Array();
 var img = new Array();
@@ -88,59 +92,101 @@ if(location.pathname.includes("/ourfleet.html")
     window.addEventListener("load", imgPreloader(), false);
 }
 
-var booking = {
-    firstname,
-    lastname,
-    personnr
-}
 
-function write (){
-    var fn, ln, nr, fuckall;
+//Labb 4
+var seats = new Array();
+var selectedSeat;
+var booking;
+
+function doBooking (){
+    var fn, ln, nr;
     fn = document.getElementById("firstname");
     ln = document.getElementById("lastname");
     nr = document.getElementById("personnr");
-    fuckall = document.getElementById("fuckall");
 
     booking = {
         firstname: fn.value,
         lastname: ln.value,
-        personnr: nr.value
+        personnr: nr.value,
+        seat: selectedSeat.seatNr,
+        row: selectedSeat.row
     }
 
-    fuckall.innerHTML = booking.firstname + booking.lastname + booking.personnr;
-
+    console.log(booking);
 }
 
 function clearBooking (){
-    //Kod för att hiva allt
+    //Sätt att rensa
 };
 
 function generateSeatButtons(){
     let container = document.querySelector("#seats");
+    let counter = 0;
+    for (let i = 0; i < 6; i++) {
+        for (let j = 0; j < 3; j++) {
+            let seatBtn = document.createElement("button");
+            let btnText = document.createTextNode((counter + 1).toString());
+            seatBtn.setAttribute("id", (counter + 1));
+            seatBtn.appendChild(btnText);
+            container.appendChild(seatBtn);
 
-    for (let i = 0; i < 18; i++) {
-        let seatBtn = document.createElement("button");
-        let btnText = document.createTextNode((i+1).toString());
-        seatBtn.classList.add("seat-btn")
-        
-        seatBtn.appendChild(btnText);
-        container.appendChild(seatBtn);
+            let available = true;
+            if((Math.floor((Math.random() * 10) + 1) > 8)){
+                seatBtn.classList.add("seat-btn-taken");
+                available = false;
+            }
+            else{
+                seatBtn.classList.add("seat-btn");
+            }
+
+            generateSeatsArray(counter, (i + 1), available);
+            counter++;
+        }
     }
 }
 
-document.getElementById("firstname").addEventListener("keyup", function(){
-    write();
-});
-document.getElementById("lastname").addEventListener("keyup", function(){
-    write();
-});
-document.getElementById("personnr").addEventListener("keyup", function(){
-    write();
-});
+function generateSeatsArray (counter, rowNr, available){
+    let classlabel = "Andra klass";
+
+    if(counter + 1 < 7){
+        classlabel = "Första klass";
+    }
+
+    seats[counter] = {
+        row: rowNr, 
+        seatNr: (counter + 1),
+        availability:available,
+        class:classlabel
+    };
+}
+
+function selectSeat(seatInput){
+    let seatLabel = document.getElementById("seat");
+    let seatClass = document.getElementById("seat-class");
+    let seat = seats.find(se => se.seatNr == seatInput)
+    if (!seat.availability){
+        seatLabel.innerHTML = "Platsen är upptagen";
+        seatClass.innerHTML = "";
+        selectedSeat = undefined;
+    }
+    else{
+        seatLabel.innerHTML = "Rad: " + seat.row + " <br>Plats: " + seat.seatNr;
+        seatClass.innerHTML = "<br>" + seat.class;
+        selectedSeat = seat;
+    }
+}
+
 
 if(window.location.pathname.includes("/booking.html")){
+    document.addEventListener("click", function(e){
+        selectSeat(e.target.id);
+        });
+    
     document.getElementById("btn-clear").addEventListener("click", function(){
         clearBooking();
     });
+    document.getElementById("btn-confirm").addEventListener("click", function(){
+        doBooking();
+    })
     window.addEventListener("load", generateSeatButtons(), false);
 }

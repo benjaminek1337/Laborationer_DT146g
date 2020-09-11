@@ -38,9 +38,9 @@ header {
     position: relative;
     margin: 10px;
     margin-right: 25px;
-    width:125px;
-    height:70px;
+    height:80px;
 }
+
 
 main {
     padding: 20px;
@@ -168,7 +168,24 @@ footer {
 }
 
 #seats {
+    
+    display:grid;
+    grid-template-columns: 50px 50px 50px;
+    grid-row: auto auto;
+    grid-column-gap: 15px;
+    grid-row-gap: 15px;
+    padding-bottom:15px;
+    width:36%;
+    
+}
 
+#seat-labels{
+    margin: 10px;
+    padding:5px;
+    float:left;
+    width:30%;
+    text-align: left;
+    font-size: large;
 }
 
 .seat-btn {
@@ -178,10 +195,32 @@ footer {
     width:50px;
     font-size:1.4em;
     border:none;
-    margin:2px;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
 }
+.seat-btn-taken {
+    cursor: pointer;
+    background-color: lightcoral;
+    height:45px;
+    width:50px;
+    font-size:1.4em;
+    border:none;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.seat-btn:focus {
+    cursor: pointer;
+    background-color: lightblue;
+    height:45px;
+    width:50px;
+    font-size:1.4em;
+    border:none;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+
 @media screen and (max-width:480px) {
     .contact-info{
         background-color:red;
