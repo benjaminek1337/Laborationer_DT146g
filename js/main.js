@@ -329,7 +329,9 @@ if(window.location.pathname.includes("/booking.html")){
 
     nr.maxLength = 11;
     nr.addEventListener("keyup", function(){
-        if(nr.value.length >5 && nr.value.length < 7){
+        var key = event.keyCode;
+        if(nr.value.length >5 && nr.value.length < 7 
+            && key != 8 && key != 46){
             nr.value+="-";
         }
         isFormFilled();
