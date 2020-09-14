@@ -31,7 +31,7 @@ function getBrowserName() {
         sBrowser.innerHTML = "unknown";
     }
 }
-console.log(location.pathname)
+
 if(window.location.pathname.includes("/contact.html")){
     document.getElementById("browser-text").addEventListener("load", getBrowserName(), false);
 }
@@ -98,27 +98,6 @@ var seats = new Array();
 var selectedSeat;
 var booking;
 
-function doBooking (){
-    var fn, ln, nr;
-    fn = document.getElementById("firstname");
-    ln = document.getElementById("lastname");
-    nr = document.getElementById("personnr");
-
-    booking = {
-        firstname: fn.value,
-        lastname: ln.value,
-        personnr: nr.value,
-        seat: selectedSeat.seatNr,
-        row: selectedSeat.row
-    }
-
-    console.log(booking);
-}
-
-function clearBooking (){
-    //Sätt att rensa
-};
-
 function generateSeatButtons(){
     let container = document.querySelector("#seats");
     let counter = 0;
@@ -134,8 +113,7 @@ function generateSeatButtons(){
             if((Math.floor((Math.random() * 10) + 1) > 8)){
                 seatBtn.classList.add("seat-btn-taken");
                 available = false;
-            }
-            else{
+            } else{
                 seatBtn.classList.add("seat-btn");
             }
 
@@ -146,10 +124,10 @@ function generateSeatButtons(){
 }
 
 function generateSeatsArray (counter, rowNr, available){
-    let classlabel = "Andra klass";
+    let classlabel = "Ekonomiklass";
 
     if(counter + 1 < 7){
-        classlabel = "Första klass";
+        classlabel = "Affärsklass";
     }
 
     seats[counter] = {
@@ -168,25 +146,196 @@ function selectSeat(seatInput){
         seatLabel.innerHTML = "Platsen är upptagen";
         seatClass.innerHTML = "";
         selectedSeat = undefined;
-    }
-    else{
+    } else{
         seatLabel.innerHTML = "Rad: " + seat.row + " <br>Plats: " + seat.seatNr;
         seatClass.innerHTML = "<br>" + seat.class;
         selectedSeat = seat;
     }
 }
 
+function seatButtonFocused(seatInput){
+    
+    var btns = document.querySelectorAll(".seat-btn");
+    
+    for (let i = 0; i < btns.length; i++) {
+        const element = btns[i];
+        element.classList.remove("enabled");
+        if(seatInput == element.id)
+            element.classList.add("enabled");
+        
+    }
+}
+
+function clearSelectedSeat(){
+    document.getElementById("seat").innerHTML="";
+    document.getElementById("seat-class").innerHTML="";
+    
+    var btns = document.querySelectorAll(".seat-btn");
+    
+    for (let i = 0; i < btns.length; i++) {
+        const element = btns[i];
+        element.classList.remove("enabled");
+    }
+}
+
+function doBooking (){
+    booking = {
+        firstname: fn.value,
+        lastname: ln.value,
+        personnr: nr.value,
+        seat: selectedSeat.seatNr,
+        row: selectedSeat.row
+    }
+    
+    if(!isOverbooked()){
+        showTicket();
+    }
+}
+
+function saveBooking (){
+    if(selectedSeat != undefined){
+        booking = {
+            firstname: fn.value,
+            lastname: ln.value,
+            personnr: nr.value,
+            seat: selectedSeat.seatNr,
+            row: selectedSeat.row
+        }
+    }
+    else{
+        booking = {
+            firstname: fn.value,
+            lastname: ln.value,
+            personnr: nr.value
+        }
+    }
+
+    sessionStorage.setItem("booking", JSON.stringify(booking));
+}
+
+function restoreBooking(){
+    booking = JSON.parse(sessionStorage.getItem("booking"));
+    fn.value = booking.firstname;
+    ln.value = booking.lastname;
+    nr.value = booking.personnr;
+    if(booking.seat != null){
+        selectSeat(booking.seat);
+        seatButtonFocused(booking.seat);
+    }
+}
+
+function clearBooking (){
+    fn.value = "";
+    ln.value = "";
+    nr.value = "";
+    booking = undefined;
+    selectedSeat = undefined;
+    clearSelectedSeat();
+}
+
+function isOverbooked(){
+    seatsLeft = seats.filter(s => s.availability == true);
+
+    if(seatsLeft.length == 0){
+        return true;
+    } else{
+        return false;
+    }
+}
+
+function isName(name){
+    return /^[a-z ,.'-]+$/i.test(name);
+}
+
+function isSsnCorrect(ssn){
+    return /^(19|20)?(\d{6}\d{4}|(?!19|20)\d{10})$/.test(ssn);
+}
+
+function isSeatSelected(){
+    if(selectedSeat == undefined || !selectedSeat.availability){
+        return false;
+    } else{
+        return true;
+    }
+}
+function isFormFilled(){
+    if(isName(fn.value)
+    && isName(ln.value)
+    && isSsnCorrect(nr.value)
+    && isSeatSelected()){
+        btnConfirm.disabled = false;
+    } else{
+        btnConfirm.disabled = true;
+    }
+}
+
+function showTicket(){
+    var win = window.open("", "Biljett", "resizable=yes,width=780,height=250");
+    var html = 
+    "<!DOCTYPE html>" +
+    "<html lang='en'>" +
+    "<head>"+
+        "<meta charset='UTF-8'>"+
+        "<meta name='viewport' content='width=device-width, initial-scale=1.0'>" +
+        "<title>Biljett</title>" + 
+        "<link rel='stylesheet' href='./../css/style.css'>"+
+    "</head>"+
+    "<body>"+
+        "<section class='ticket'>" +
+            "<h1>Din biljett</h1>"+
+            "<p>" + booking.firstname + " " + booking.lastname + "</p>" +
+            "<p> Personnr: " + booking.personnr + "</p>" +
+            "<p> Plats: " + booking.seat + " Rad: " + booking.row +
+            "<br>Biljetten avser resa i " + selectedSeat.class.toLowerCase(); + "</p>" +
+        "</section>"
+    "</body>"+
+    "</html>";
+
+    win.document.write(html);
+}
 
 if(window.location.pathname.includes("/booking.html")){
+
+    var btnConfirm = document.getElementById("btn-confirm");
+    var fn = document.getElementById("firstname");
+    var ln = document.getElementById("lastname");
+    var nr = document.getElementById("personnr");
+
     document.addEventListener("click", function(e){
-        selectSeat(e.target.id);
-        });
+        if(e.target.classList=="seat-btn" || e.target.classList=="seat-btn-taken"){
+            selectSeat(e.target.id);
+            seatButtonFocused(e.target.id);
+            isFormFilled();
+        }
+    });
     
     document.getElementById("btn-clear").addEventListener("click", function(){
         clearBooking();
+        isFormFilled();
     });
-    document.getElementById("btn-confirm").addEventListener("click", function(){
+    
+    btnConfirm.addEventListener("click", function(){
         doBooking();
-    })
+    });
+
+    fn.addEventListener("keyup", function(){
+        isFormFilled();
+    });
+
+    ln.addEventListener("keyup", function(){
+        isFormFilled();
+    });
+
+    nr.addEventListener("keyup", function(){
+        isFormFilled();
+    });
+
+    window.onbeforeunload = function(){
+        saveBooking();
+    }
+
     window.addEventListener("load", generateSeatButtons(), false);
+    if(JSON.parse(sessionStorage.getItem("booking")) != null){
+        window.addEventListener("load", restoreBooking(), false);
+    }
 }

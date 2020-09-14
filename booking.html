@@ -29,31 +29,29 @@ beek1800@student.miun.se
     </header>
     <main>
         <main>
-            <h1>Boka "flyg"</h1>
+            <h1>Boka en resa med oss</h1>
             <aside id="booking-form">
-                <h3 class="booking-h3">VEM FAN ÄR DU</h3>
+                <h3 class="booking-h3">Dina uppgifter</h3>
                 <hr class="booking-hr">
                 <input class="form-input" type="text" id="firstname" placeholder="Förnamn" >
                 <br>    
                 <input class="form-input" type="text" id="lastname" placeholder="Efternamn" >
                 <br>
-                <input class="form-input" type="text" id="personnr" placeholder="Personnummer">
-                <label id="class-info"></label>
-                
+                <input class="form-input" type="text" id="personnr" placeholder="Personnummer">                
                 <br>
-
-                <br>
-                <br>
-                <button id="btn-confirm">Boka</button>
-                <button id="btn-clear">Rensa</button>
-            </aside>
-            <aside id="seat-selector">
-                <h3 class="booking-h3">VART FAN VILL DU SITTA</h3>
-                <hr class="booking-hr">
                 <section id="seat-labels">
                     <label id="seat"></label>
                     <label id="seat-class"></label>
                 </section>
+
+                <section class="booking-buttons">
+                    <button id="btn-clear">Rensa</button>
+                    <button id="btn-confirm" disabled = "true">Boka</button>
+                </section>
+            </aside>
+            <aside id="seat-selector">
+                <h3 class="booking-h3">Välj plats</h3>
+                <hr class="booking-hr">
                 <section id="seats"></section>
             </aside>
     </main>
