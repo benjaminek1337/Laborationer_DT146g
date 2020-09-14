@@ -248,7 +248,7 @@ function isName(name){
 }
 
 function isSsnCorrect(ssn){
-    return /^(19|20)?(\d{6}\d{4}|(?!19|20)\d{10})$/.test(ssn);
+    return /^\d{6,8}[-|(\s)]{0,1}\d{4}$/.test(ssn);
 }
 
 function isSeatSelected(){
@@ -326,7 +326,11 @@ if(window.location.pathname.includes("/booking.html")){
         isFormFilled();
     });
 
+    nr.maxLength = 11;
     nr.addEventListener("keyup", function(){
+        if(nr.value.length >5 && nr.value.length < 7){
+            nr.value+="-";
+        }
         isFormFilled();
     });
 
