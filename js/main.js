@@ -222,6 +222,7 @@ function restoreBooking(){
         selectSeat(booking.seat);
         seatButtonFocused(booking.seat);
     }
+    isFormFilled();
 }
 
 function clearBooking (){
@@ -284,7 +285,7 @@ function showTicket(){
         "<section class='ticket'>" +
             "<h1>Din biljett</h1>"+
             "<p>" + booking.firstname + " " + booking.lastname + "</p>" +
-            "<p> Personnr: " + booking.personnr + "</p>" +
+            "<p> Personnummer: " + booking.personnr + "</p>" +
             "<p> Plats: " + booking.seat + " Rad: " + booking.row +
             "<br>Biljetten avser resa i " + selectedSeat.class.toLowerCase(); + "</p>" +
         "</section>"
