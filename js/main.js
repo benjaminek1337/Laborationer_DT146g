@@ -1,4 +1,4 @@
-//Labb 2
+//#region Labb 2
 
 function getBrowserName() {
     let sBrowser = document.getElementById("browser-text");
@@ -35,11 +35,9 @@ function getBrowserName() {
 if(window.location.pathname.includes("/contact.html")){
     document.getElementById("browser-text").addEventListener("load", getBrowserName(), false);
 }
+//#endregion
 
-//Labb 3
-
-var imgPaths = new Array();
-var img = new Array();
+//#region Labb 3
 
 function imgPreloader(){
     if(window.location.pathname.includes("/ourfleet.html")){
@@ -76,6 +74,9 @@ function imageSelector(imgThumb){
 
 if(location.pathname.includes("/ourfleet.html") 
 || location.pathname.includes("/employees.html")){
+    var imgPaths = new Array();
+    var img = new Array();
+
     document.getElementById("img1").addEventListener("click", function(){
         imageSelector(document.getElementById("img1").src)
     });
@@ -91,12 +92,9 @@ if(location.pathname.includes("/ourfleet.html")
     
     window.addEventListener("load", imgPreloader(), false);
 }
+//#endregion
 
-
-//Labb 4
-var seats = new Array();
-var selectedSeat;
-var booking;
+//#region Labb 4
 
 function generateSeatButtons(){
     let container = document.querySelector("#seats");
@@ -178,21 +176,7 @@ function clearSelectedSeat(){
     }
 }
 
-function doBooking (){
-    booking = {
-        firstname: fn.value,
-        lastname: ln.value,
-        personnr: nr.value,
-        seat: selectedSeat.seatNr,
-        row: selectedSeat.row
-    }
-    
-    if(!isOverbooked()){
-        showTicket();
-    }
-}
-
-function saveBooking (){
+function saveBooking(){
     if(selectedSeat != undefined){
         booking = {
             firstname: fn.value,
@@ -209,7 +193,18 @@ function saveBooking (){
             personnr: nr.value
         }
     }
+}
 
+function doBooking (){
+    saveBooking();
+    
+    if(!isOverbooked() && selectedSeat != undefined){
+        showTicket();
+    }
+}
+
+function storeBooking (){
+    saveBooking();
     sessionStorage.setItem("booking", JSON.stringify(booking));
 }
 
@@ -302,6 +297,10 @@ if(window.location.pathname.includes("/booking.html")){
     var ln = document.getElementById("lastname");
     var nr = document.getElementById("personnr");
 
+    var seats = new Array();
+    var selectedSeat;
+    var booking;
+
     document.addEventListener("click", function(e){
         if(e.target.classList=="seat-btn" || e.target.classList=="seat-btn-taken"){
             selectSeat(e.target.id);
@@ -338,7 +337,7 @@ if(window.location.pathname.includes("/booking.html")){
     });
 
     window.onbeforeunload = function(){
-        saveBooking();
+        storeBooking();
     }
 
     window.addEventListener("load", generateSeatButtons(), false);
@@ -346,3 +345,4 @@ if(window.location.pathname.includes("/booking.html")){
         window.addEventListener("load", restoreBooking(), false);
     }
 }
+//#endregion
