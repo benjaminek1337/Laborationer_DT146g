@@ -102,6 +102,9 @@ function onInit(){
     if(JSON.parse(sessionStorage.getItem("booking")) != null){
         restoreBooking();
     }
+    if(JSON.parse(sessionStorage.getItem("bookings")) != null){
+        restoreBookings();
+    }
 }
 
 function generateSeatButtons(){
@@ -113,9 +116,9 @@ function generateSeatButtons(){
             let btnText = document.createTextNode((counter + 1).toString());
             seatBtn.classList.add("seat-btn");
             seatBtn.setAttribute("id", (counter + 1));
-            if((Math.floor((Math.random() * 10) + 1) > 8)){
-                seatBtn.classList.add("taken");
-            }
+            // if((Math.floor((Math.random() * 10) + 1) > 8)){
+            //     seatBtn.classList.add("taken");
+            // }
             seatBtn.appendChild(btnText);
             container.appendChild(seatBtn);
 
@@ -208,9 +211,13 @@ function doBooking (){
     }
 }
 
-function storeBooking (){
+function storeBooking(){
     saveBooking();
     sessionStorage.setItem("booking", JSON.stringify(saveBooking()));
+}
+
+function storeBookings(){
+    sessionStorage.setItem("bookings", JSON.stringify(bookings));
 }
 
 function restoreBooking(){
@@ -229,6 +236,16 @@ function restoreBooking(){
         seatButtonFocused(selectedSeat);
     }
     isFormFilled();
+}
+
+function restoreBookings(){
+    bookings = JSON.parse(sessionStorage.getItem("bookings"));
+    for (let i = 0; i < btns.length; i++) {
+        const btn = btns[i];
+        if(bookings.find(b => b.seat == btn.id)){
+            btn.classList.add("taken");
+        }
+    }
 }
 
 function clearBooking (){
@@ -361,6 +378,7 @@ if(window.location.pathname.includes("/booking.html")){
 
     window.onbeforeunload = function(){
         storeBooking();
+        storeBookings();
     }
 
     window.addEventListener("load", onInit(), false);
