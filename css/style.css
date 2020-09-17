@@ -212,19 +212,17 @@ footer {
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
 }
-.seat-btn-taken {
+.seat-btn.taken {
     cursor: pointer;
     background-color: lightcoral;
-    height:45px;
-    width:50px;
-    font-size:1.4em;
-    border:none;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
 }
 
 .seat-btn.enabled {
     background-color: lightblue;
+}
+
+.seat-btn.enabled.taken {
+    background-color: red;
 }
 
 .ticket{

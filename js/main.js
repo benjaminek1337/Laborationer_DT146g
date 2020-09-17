@@ -96,6 +96,14 @@ if(location.pathname.includes("/ourfleet.html")
 
 //#region Labb 4
 
+function onInit(){
+    generateSeatButtons();
+    addEventListenerToSeatBtns();
+    if(JSON.parse(sessionStorage.getItem("booking")) != null){
+        restoreBooking();
+    }
+}
+
 function generateSeatButtons(){
     let container = document.querySelector("#seats");
     let counter = 0;
@@ -103,22 +111,24 @@ function generateSeatButtons(){
         for (let j = 0; j < 3; j++) {
             let seatBtn = document.createElement("button");
             let btnText = document.createTextNode((counter + 1).toString());
+            seatBtn.classList.add("seat-btn");
             seatBtn.setAttribute("id", (counter + 1));
+            let available = true;
+            if((Math.floor((Math.random() * 10) + 1) > 8)){
+                seatBtn.classList.add("taken");
+                available = false;
+            }
+            seatBtn.setAttribute("availability", available);
+            seatBtn.setAttribute("row", i+1);
             seatBtn.appendChild(btnText);
             container.appendChild(seatBtn);
 
-            let available = true;
-            if((Math.floor((Math.random() * 10) + 1) > 8)){
-                seatBtn.classList.add("seat-btn-taken");
-                available = false;
-            } else{
-                seatBtn.classList.add("seat-btn");
-            }
-
             generateSeatsArray(counter, (i + 1), available);
             counter++;
+            console.log(seatBtn)
         }
     }
+    
 }
 
 function generateSeatsArray (counter, rowNr, available){
@@ -136,10 +146,22 @@ function generateSeatsArray (counter, rowNr, available){
     };
 }
 
+function addEventListenerToSeatBtns (){
+    btns = document.querySelectorAll(".seat-btn");
+    for (let i = 0; i < btns.length; i++) {
+        const element = btns[i];
+        element.addEventListener("click", function(){
+            selectSeat(element.id);
+            seatButtonFocused(element.id);
+            isFormFilled();
+        });  
+    }
+}
+
 function selectSeat(seatInput){
     let seatLabel = document.getElementById("seat");
     let seatClass = document.getElementById("seat-class");
-    let seat = seats.find(se => se.seatNr == seatInput)
+    let seat = seats.find(se => se.seatNr == seatInput);
     if (!seat.availability){
         seatLabel.innerHTML = "Platsen är upptagen";
         seatClass.innerHTML = "";
@@ -152,15 +174,13 @@ function selectSeat(seatInput){
 }
 
 function seatButtonFocused(seatInput){
-    
-    var btns = document.querySelectorAll(".seat-btn");
-    
+    //Kanske göra med lambda
     for (let i = 0; i < btns.length; i++) {
         const element = btns[i];
         element.classList.remove("enabled");
-        if(seatInput == element.id)
+        if(seatInput == element.id){
             element.classList.add("enabled");
-        
+        }
     }
 }
 
@@ -198,8 +218,10 @@ function saveBooking(){
 function doBooking (){
     saveBooking();
     
-    if(!isOverbooked() && selectedSeat != undefined){
+    if(!isOverbooked() && isFormFilled()){
         showTicket();
+        bookings.push(booking);
+        checkReservedSeats(booking.seat);
     }
 }
 
@@ -239,12 +261,30 @@ function isOverbooked(){
     }
 }
 
+function checkReservedSeats(seat){
+    let seatBtn;
+    
+    for (let i = 0; i < btns.length; i++) {
+        const element = btns[i];
+        if(element.id == seat)
+        seatBtn = element;
+    }
+
+    let reservedSeat = seats.find(s => s.seatNr == seat);
+    if(reservedSeat != null){
+        reservedSeat.availability = false;
+        seatBtn.classList.add("taken");
+        clearBooking();
+    }
+}
+
 function isName(name){
-    return /^[a-z ,.'-]+$/i.test(name);
+    return /^[a-ö ,.'-]+$/i.test(name);
 }
 
 function isSsnCorrect(ssn){
-    return /^\d{6,8}[-|(\s)]{0,1}\d{4}$/.test(ssn);
+    return /[0-9]{6}[-]?[0-9]{4}$/.test(ssn);
+    //DEN HÄR JÄVLA SKITEN TAR JU 11 SIFFROR! FIXA
 }
 
 function isSeatSelected(){
@@ -260,21 +300,22 @@ function isFormFilled(){
     && isSsnCorrect(nr.value)
     && isSeatSelected()){
         btnConfirm.disabled = false;
+        return true;
     } else{
         btnConfirm.disabled = true;
+        return false;
     }
 }
 
 function showTicket(){
     var win = window.open("", "Biljett", "resizable=yes,width=780,height=250");
-    var html = 
-    "<!DOCTYPE html>" +
+    var html = "<!DOCTYPE html>" +
     "<html lang='en'>" +
     "<head>"+
         "<meta charset='UTF-8'>"+
         "<meta name='viewport' content='width=device-width, initial-scale=1.0'>" +
         "<title>Biljett</title>" + 
-        "<link rel='stylesheet' href='./../css/style.css'>"+
+        "<link rel='stylesheet' href='./css/style.css'>"+
     "</head>"+
     "<body>"+
         "<section class='ticket'>" +
@@ -300,14 +341,8 @@ if(window.location.pathname.includes("/booking.html")){
     var seats = new Array();
     var selectedSeat;
     var booking;
-
-    document.addEventListener("click", function(e){
-        if(e.target.classList=="seat-btn" || e.target.classList=="seat-btn-taken"){
-            selectSeat(e.target.id);
-            seatButtonFocused(e.target.id);
-            isFormFilled();
-        }
-    });
+    var btns;
+    var bookings = new Array();
     
     document.getElementById("btn-clear").addEventListener("click", function(){
         clearBooking();
@@ -340,9 +375,6 @@ if(window.location.pathname.includes("/booking.html")){
         storeBooking();
     }
 
-    window.addEventListener("load", generateSeatButtons(), false);
-    if(JSON.parse(sessionStorage.getItem("booking")) != null){
-        window.addEventListener("load", restoreBooking(), false);
-    }
+    window.addEventListener("load", onInit(), false);
 }
 //#endregion
