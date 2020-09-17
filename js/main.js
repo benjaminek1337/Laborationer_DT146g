@@ -203,7 +203,7 @@ function doBooking (){
     if(!isOverbooked() && isFormFilled()){
         showTicket(booking);
         bookings.push(booking);
-        checkReservedSeats();
+        takeSeat();
         clearBooking();
     }
 }
@@ -255,7 +255,7 @@ function isOverbooked(){
     }
 }
 
-function checkReservedSeats(){
+function takeSeat(){
     if(selectedSeat != null){
         selectedSeat.classList.add("taken");
     }
