@@ -51,11 +51,22 @@ main h1{
     text-align:center;
 }
 
+#welcome-paragraph{
+    margin-left:10%;
+    margin-right:10%;
+}
+
 .destinations {
     background: #cae9e99d;
-
     padding: 5px;
     width: 40%;
+    margin-left:3%;
+    margin-top:40px;
+    border-radius: 10px;
+}
+
+.destinations h3 {
+    text-align:center;
 }
 
 .destinations ul {
