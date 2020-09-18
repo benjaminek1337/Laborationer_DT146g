@@ -70,6 +70,7 @@ footer {
     position: fixed;
     bottom: 0;
     width: 940px;
+    text-align: center;
 }
 
 .contact-info{
