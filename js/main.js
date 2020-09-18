@@ -97,6 +97,7 @@ if(location.pathname.includes("/ourfleet.html")
 //#region Labb 4
 
 function onInit(){
+    btnConfirm.disabled = true;
     generateSeatButtons();
     addEventListenerToSeatBtns();
     if(JSON.parse(sessionStorage.getItem("booking")) != null){
