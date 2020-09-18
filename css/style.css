@@ -3,7 +3,7 @@ html, body {
     max-width: 960px;
     height:100%;
     margin: auto;
-    text-align: center;
+
     background-image: url(../img/clouds.png);
     background-color: whitesmoke;
 }
@@ -41,12 +41,15 @@ header {
     height:80px;
 }
 
-
 main {
     padding: 20px;
     background-color: white;
     margin: 0px;
     min-height: 83vh;
+}
+
+main h1{
+    text-align:center;
 }
 
 .destinations {
@@ -132,7 +135,8 @@ footer {
     margin-bottom:10px;
     font-size: large;
     border-radius: 10px;
-    border-color: lightgray;
+    border: none;
+    padding-left: 10px;
 }
 
 .booking-buttons{

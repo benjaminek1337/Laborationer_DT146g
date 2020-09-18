@@ -283,8 +283,7 @@ function isName(name){
 }
 
 function isSsnCorrect(ssn){
-    return /[0-9]{6}[-]?[0-9]{4}$/.test(ssn);
-    //DEN HÄR JÄVLA SKITEN TAR JU 11 SIFFROR! FIXA
+    return /[0-9]{2}[0-1]{1}[0-9]{3}[-]{1}[0-9]{4}$/.test(ssn);
 }
 
 function isSeatSelected(){
