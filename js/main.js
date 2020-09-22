@@ -160,13 +160,18 @@ function selectSeat(seat){
 }
 
 function seatButtonFocused(seat){
-    //Kanske göra med lambda
     for (let i = 0; i < btns.length; i++) {
         const element = btns[i];
         element.classList.remove("enabled");
         if(seat.id == element.id){
             element.classList.add("enabled");
         }
+    }
+}
+
+function takeSeat(){
+    if(selectedSeat != null){
+        selectedSeat.classList.add("taken");
     }
 }
 
@@ -190,8 +195,7 @@ function saveBooking(){
             seat: selectedSeat.id,
             row: Math.ceil(selectedSeat.id / 3)
         }
-    }
-    else{
+    } else{
         booking = {
             firstname: fn.value,
             lastname: ln.value,
@@ -213,7 +217,6 @@ function doBooking (){
 }
 
 function storeBooking(){
-    saveBooking();
     sessionStorage.setItem("booking", JSON.stringify(saveBooking()));
 }
 
@@ -273,12 +276,6 @@ function isOverbooked(){
     }
 }
 
-function takeSeat(){
-    if(selectedSeat != null){
-        selectedSeat.classList.add("taken");
-    }
-}
-
 function isName(name){
     return /^[a-ö ,.'-]+$/i.test(name);
 }
@@ -308,7 +305,6 @@ function isFormFilled(){
 }
 
 function showTicket(booking){
-
     let seatClass = "affärsklass";
 
     if(selectedSeat.id > 7){
