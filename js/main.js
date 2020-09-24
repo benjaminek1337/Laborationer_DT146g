@@ -1,3 +1,6 @@
+
+window.onload = function(){
+
 //#region Labb 2
 
 function getBrowserName() {
@@ -379,4 +382,6 @@ if(window.location.pathname.includes("/booking.html")){
 
     window.addEventListener("load", onInit(), false);
 }
+}
 //#endregion
+
