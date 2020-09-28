@@ -35,7 +35,7 @@ Uppgifter som behövde utföras för att uppnå målet:
 Rolig liten utmaning, det mesta här var bekant sen innan. Sessionstorage var nytt för mig, då vi i systerprogrammet Informatik arbetat mycket med webb, men då använt oss av cookies på serversidan. Det var dock ingen jobbigare nöt att knäcka.
 Fältvalidering via regex var lyckligtvis inte obligatoriskt, jag gjorde en rudimentär check för personnummret, men det blev lite hackigt. Resten av mitt jobb känns ok.
 
-Då denna uppgift endast behandlade platsbokning med 18 säten uppdelade på 6 rader hårdkodade jag det, och radade upp sätena genom CSS. Men ponera att det fanns flera olika flygplan med olika säteskonfigurationer, då hade jag fått se till att den hämtade data om ett specifikt flygplan reflekteras i gränssnittet. Men det kändes vara utanför scopet för denna uppgift.
+Då denna uppgift endast behandlade platsbokning med 18 säten uppdelade på 6 rader hårdkodade jag det. Men ponera att det fanns flera olika flygplan med olika säteskonfigurationer, då hade jag fått se till att den hämtade data om ett specifikt flygplan, och att detta reflekteras i gränssnittet. Men det kändes vara utanför scopet för denna uppgift.
 
 Huruvida script-taggen ska placeras i head eller body, jag har inte läst på 
 allt för mycket om just det ämnet, men allmän koncensus när jag kikar på
