@@ -101,7 +101,7 @@ if(location.pathname.includes("/ourfleet.html")
 
 function onInit(){
     btnConfirm.disabled = true;
-    generateSeatButtons(getSeatsAndRows());
+    generateSeatButtons(getPlane());
     addEventListenerToSeatBtns();
     if(JSON.parse(sessionStorage.getItem("booking")) != null){
         restoreBooking();
@@ -111,18 +111,18 @@ function onInit(){
     }
 }
 
-function getSeatsAndRows(){
+function getPlane(){
     return {rows:6, seats:3}
 }
 
-function generateSeatButtons(object){
+function generateSeatButtons(plane){
     let counter = 0;
     let container = document.querySelector("#seats");
     let table = document.createElement("table");
     let tableBody = document.createElement("tbody");
-    for (let i = 0; i < object.rows; i++) {
+    for (let i = 0; i < plane.rows; i++) {
         let row = document.createElement("tr");
-        for (let j = 0; j < object.seats; j++) {
+        for (let j = 0; j < plane.seats; j++) {
             let cell = document.createElement("td");
             let seatBtn = document.createElement("button");
             let btnText = document.createTextNode((counter + 1).toString());
@@ -164,7 +164,8 @@ function selectSeat(seat){
         selectedSeat = undefined;
     } else{
         selectedSeat = seat;
-        seatLabel.innerHTML = "Rad: " + (Math.ceil(seat.id / 3)) + " <br>Plats: " + seat.id;
+        seatLabel.innerHTML = "Rad: " + (Math.ceil(seat.id / getPlane().seats)) + 
+            " <br>Plats: " + seat.id;
         if(seat.id < 7){
             seatClass.innerHTML = "<br>" + getTravelClass(seat.id);
         } else{
@@ -215,7 +216,7 @@ function saveBooking(){
             lastname: ln.value,
             personnr: nr.value,
             seat: selectedSeat.id,
-            row: Math.ceil(selectedSeat.id / 3)
+            row: Math.ceil(selectedSeat.id / getPlane().seats)
         }
     } else{
         booking = {
