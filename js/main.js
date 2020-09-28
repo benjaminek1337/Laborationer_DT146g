@@ -112,22 +112,19 @@ function onInit(){
 }
 
 function generateSeatButtons(){
+    //Må hända göra om till tables för mer flexibel generering
+
     let container = document.querySelector("#seats");
     let counter = 0;
-    for (let i = 0; i < 6; i++) {
-        for (let j = 0; j < 3; j++) {
-            let seatBtn = document.createElement("button");
-            let btnText = document.createTextNode((counter + 1).toString());
-            seatBtn.classList.add("seat-btn");
-            seatBtn.setAttribute("id", (counter + 1));
-            // if((Math.floor((Math.random() * 10) + 1) > 8)){
-            //     seatBtn.classList.add("taken");
-            // }
-            seatBtn.appendChild(btnText);
-            container.appendChild(seatBtn);
+    for (let i = 0; i < 18; i++) {
+        let seatBtn = document.createElement("button");
+        let btnText = document.createTextNode((counter + 1).toString());
+        seatBtn.classList.add("seat-btn");
+        seatBtn.setAttribute("id", (counter + 1));
+        seatBtn.appendChild(btnText);
+        container.appendChild(seatBtn);
 
-            counter++;
-        }
+        counter++;
     }   
 }
 
@@ -138,7 +135,7 @@ function addEventListenerToSeatBtns (){
         element.addEventListener("click", function(){
             selectSeat(element);
             seatButtonFocused(element);
-            isFormFilled();
+            bookingButtonEnabler();
         });  
     }
 }
@@ -155,11 +152,19 @@ function selectSeat(seat){
         selectedSeat = seat;
         seatLabel.innerHTML = "Rad: " + (Math.ceil(seat.id / 3)) + " <br>Plats: " + seat.id;
         if(seat.id < 7){
-            seatClass.innerHTML = "<br>Affärsklass";
+            seatClass.innerHTML = "<br>" + getTravelClass(seat.id);
         } else{
-            seatClass.innerHTML = "<br>Ekonomiklass";
+            seatClass.innerHTML = "<br>" + getTravelClass(seat.id);
         }
     }
+}
+
+function getTravelClass(seatNr){
+    let travelClass = "Ekonomiklass";
+    if(seatNr <= 6){
+        travelClass = "Affärsklass";
+    }
+    return travelClass;
 }
 
 function seatButtonFocused(seat){
@@ -238,11 +243,10 @@ function restoreBooking(){
             if(booking.seat == element.id)
                 selectedSeat = element;
         }
-
         selectSeat(selectedSeat);
         seatButtonFocused(selectedSeat);
     }
-    isFormFilled();
+    bookingButtonEnabler();
 }
 
 function restoreBookings(){
@@ -261,7 +265,7 @@ function clearBooking (){
     nr.value = "";
     selectedSeat = undefined;
     clearSelectedSeat();
-    isFormFilled();
+    bookingButtonEnabler();
 }
 
 function isOverbooked(){
@@ -283,8 +287,8 @@ function isName(name){
     return /^[a-ö ,.'-]+$/i.test(name);
 }
 
-function isSsnCorrect(ssn){
-    return /[0-9]{2}[0-1]{1}[0-9]{3}[-]{1}[0-9]{4}$/.test(ssn);
+function isPersonNrCorrect(pnr){
+    return /[0-9]{2}[0-1]{1}[0-9]{3}[-]{1}[0-9]{4}$/.test(pnr);
 }
 
 function isSeatSelected(){
@@ -297,23 +301,23 @@ function isSeatSelected(){
 function isFormFilled(){
     if(isName(fn.value)
     && isName(ln.value)
-    && isSsnCorrect(nr.value)
+    && isPersonNrCorrect(nr.value)
     && isSeatSelected()){
-        btnConfirm.disabled = false;
         return true;
     } else{
-        btnConfirm.disabled = true;
         return false;
     }
 }
 
-function showTicket(booking){
-    let seatClass = "affärsklass";
-
-    if(selectedSeat.id > 7){
-        seatClass = "ekonomiklass";
+function bookingButtonEnabler(){
+    if(isFormFilled()){
+        btnConfirm.disabled = false;
+    } else{
+        btnConfirm.disabled = true;
     }
+}
 
+function showTicket(booking){
     let win = window.open("", "Biljett", "resizable=yes,width=780,height=250");
     let html = "<!DOCTYPE html>" +
     "<html lang='en'>" +
@@ -329,7 +333,7 @@ function showTicket(booking){
             "<p>" + booking.firstname + " " + booking.lastname + "</p>" +
             "<p> Personnummer: " + booking.personnr + "</p>" +
             "<p> Plats: " + booking.seat + " Rad: " + booking.row +
-            "<br>Biljetten avser resa i " + seatClass + "</p>" +
+            "<br>Biljetten avser resa i " + getTravelClass(booking.seat).toLowerCase(); + "</p>" +
         "</section>"
     "</body>"+
     "</html>";
@@ -358,11 +362,11 @@ if(window.location.pathname.includes("/booking.html")){
     });
 
     fn.addEventListener("keyup", function(){
-        isFormFilled();
+        bookingButtonEnabler();
     });
 
     ln.addEventListener("keyup", function(){
-        isFormFilled();
+        bookingButtonEnabler();
     });
 
     nr.maxLength = 11;
@@ -372,7 +376,7 @@ if(window.location.pathname.includes("/booking.html")){
             && key != 8 && key != 46){
             nr.value+="-";
         }
-        isFormFilled();
+        bookingButtonEnabler();
     });
 
     window.onbeforeunload = function(){
@@ -382,6 +386,6 @@ if(window.location.pathname.includes("/booking.html")){
 
     window.addEventListener("load", onInit(), false);
 }
-}
 //#endregion
+}
 
