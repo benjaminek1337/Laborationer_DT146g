@@ -101,7 +101,7 @@ if(location.pathname.includes("/ourfleet.html")
 
 function onInit(){
     btnConfirm.disabled = true;
-    generateSeatButtons();
+    generateSeatButtons(getSeatsAndRows());
     addEventListenerToSeatBtns();
     if(JSON.parse(sessionStorage.getItem("booking")) != null){
         restoreBooking();
@@ -111,21 +111,35 @@ function onInit(){
     }
 }
 
-function generateSeatButtons(){
-    //Må hända göra om till tables för mer flexibel generering
+function getSeatsAndRows(){
+    return {rows:6, seats:3}
+}
 
-    let container = document.querySelector("#seats");
+function generateSeatButtons(object){
     let counter = 0;
-    for (let i = 0; i < 18; i++) {
-        let seatBtn = document.createElement("button");
-        let btnText = document.createTextNode((counter + 1).toString());
-        seatBtn.classList.add("seat-btn");
-        seatBtn.setAttribute("id", (counter + 1));
-        seatBtn.appendChild(btnText);
-        container.appendChild(seatBtn);
+    let container = document.querySelector("#seats");
+    let table = document.createElement("table");
+    let tableBody = document.createElement("tbody");
+    for (let i = 0; i < object.rows; i++) {
+        let row = document.createElement("tr");
+        for (let j = 0; j < object.seats; j++) {
+            let cell = document.createElement("td");
+            let seatBtn = document.createElement("button");
+            let btnText = document.createTextNode((counter + 1).toString());
 
-        counter++;
-    }   
+            seatBtn.appendChild(btnText);
+            seatBtn.classList.add("seat-btn");
+            seatBtn.setAttribute("id", (counter + 1));
+            
+            cell.appendChild(seatBtn);
+            row.appendChild(cell);
+            counter++;
+        }    
+        table.appendChild(row);
+    }
+
+    table.appendChild(tableBody);
+    container.appendChild(table);
 }
 
 function addEventListenerToSeatBtns (){
