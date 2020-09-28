@@ -164,8 +164,8 @@ function selectSeat(seat){
         selectedSeat = undefined;
     } else{
         selectedSeat = seat;
-        seatLabel.innerHTML = "Rad: " + (Math.ceil(seat.id / getPlane().seats)) + 
-            " <br>Plats: " + seat.id;
+        seatLabel.innerHTML = "Plats: " + seat.id + 
+            " <br>Rad: " + (Math.ceil(seat.id / getPlane().seats)) ;
         if(seat.id < 7){
             seatClass.innerHTML = "<br>" + getTravelClass(seat.id);
         } else{
@@ -176,7 +176,7 @@ function selectSeat(seat){
 
 function getTravelClass(seatNr){
     let travelClass = "Ekonomiklass";
-    if(seatNr <= 6){
+    if(seatNr <= (getPlane().seats * 2)){
         travelClass = "Affärsklass";
     }
     return travelClass;
