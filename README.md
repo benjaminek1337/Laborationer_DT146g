@@ -10,22 +10,31 @@ vad bildvisaren har, och således bekantas med JS lite mer.
 
 ## Procedures / Genomförande
 Uppgifter som behövde utföras för att uppnå målet:
+
 - Skapa utrymme för bokningsformuläret och sätesväljaren genom
   HTML/CSS
+
 - Skapa inmatningar för namn och personnr, samt knappar för att boka
   biljett, samt för att rensa alla fält
+
 - Generera bokningsbara säten, i detta fall dynamiskt genererade knappar
+
 - Skapa kontroller för huruvida formuläret är korrekt ifyllt eller inte,
   för att kunna få genomföra bokningen, samt låsa upp bokningsknappen
+
 - Ge sätena klick-event för att välja ett säte (lagras i en global 
   variabel), se till att valt säte får fokus i gränssnittet samt 
   för att kontrollera om formuläret nu är ifyllt eller inte
+
 - Lagra genomförda bokningar i en array, där genomförda bokningar ser
   till att ett redan bokat säte ej kan bokas igen, och visualiseras 
   som upptaget i gränssnittet
-- Generera biljett, validerbar i enighet med HTML5-standard, samt presentera
+
+- Generera biljett, validerbar i enighet med HTML5-standard, samt   presentera
   biljetten i ett nytt fönster, även förberett för utskrift genom CSS.
+
 - Skapa funktion för att rensa formuläret
+
 - Skapa sessionstorage för att kunna spara bokningarna, samt pågående bokning
   så länge fliken i webbläsaren inte är stängd, och se till att allt laddas in
   vid sidladdning om det finns någon lagrad data
