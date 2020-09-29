@@ -396,7 +396,8 @@ if(window.location.pathname.includes("/booking.html")){
 
     window.onbeforeunload = function(){
         storeBooking();
-        storeBookings();
+        if(bookings != undefined)
+            storeBookings();
     }
 
     window.addEventListener("load", onInit(), false);
