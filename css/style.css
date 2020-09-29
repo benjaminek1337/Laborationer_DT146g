@@ -123,10 +123,12 @@ footer {
     background-color:hsl(192, 100%, 94%);
     width:49%;
     float:left;
-    border-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
     padding-top:20px;
     height:420px;
     position:relative;
+    margin-left:1%;
 }
 
 .booking-h3 {
@@ -146,6 +148,15 @@ footer {
     border: none;
     padding-left: 10px;
     margin-left:15px;
+}
+
+#seat-labels{
+    margin-left: 20px;
+    padding:5px;
+    float:left;
+    width:30%;
+    text-align: left;
+    font-size: large;
 }
 
 .booking-buttons{
@@ -187,8 +198,9 @@ footer {
 #seat-selector {
     background-color:hsl(192, 100%, 94%);
     width:49%;
-    float:right;
-    border-radius: 10px;
+    float:left;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
     padding-top:20px;
     height:420px;
     position: relative;
@@ -200,15 +212,6 @@ footer {
 
 th, td{
     padding:3px;
-}
-
-#seat-labels{
-    margin-left: 20px;
-    padding:5px;
-    float:left;
-    width:30%;
-    text-align: left;
-    font-size: large;
 }
 
 .seat-btn {
