@@ -143,9 +143,9 @@ function generateSeatButtons(plane){
 }
 
 function addEventListenerToSeatBtns (){
-    btns = document.querySelectorAll(".seat-btn");
-    for (let i = 0; i < btns.length; i++) {
-        const element = btns[i];
+    seatBtns = document.querySelectorAll(".seat-btn");
+    for (let i = 0; i < seatBtns.length; i++) {
+        const element = seatBtns[i];
         element.addEventListener("click", function(){
             selectSeat(element);
             seatButtonFocused(element);
@@ -183,8 +183,8 @@ function getTravelClass(seatNr){
 }
 
 function seatButtonFocused(seat){
-    for (let i = 0; i < btns.length; i++) {
-        const element = btns[i];
+    for (let i = 0; i < seatBtns.length; i++) {
+        const element = seatBtns[i];
         element.classList.remove("enabled");
         if(seat.id == element.id){
             element.classList.add("enabled");
@@ -202,8 +202,8 @@ function clearSelectedSeat(){
     document.getElementById("seat").innerHTML="";
     document.getElementById("seat-class").innerHTML="";
     
-    for (let i = 0; i < btns.length; i++) {
-        const element = btns[i];
+    for (let i = 0; i < seatBtns.length; i++) {
+        const element = seatBtns[i];
         element.classList.remove("enabled");
     }
 }
@@ -253,8 +253,8 @@ function restoreBooking(){
     ln.value = booking.lastname;
     nr.value = booking.personnr;
     if(booking.seat != null){
-        for (let i = 0; i < btns.length; i++) {
-            const element = btns[i];
+        for (let i = 0; i < seatBtns.length; i++) {
+            const element = seatBtns[i];
             if(booking.seat == element.id)
                 selectedSeat = element;
         }
@@ -266,8 +266,8 @@ function restoreBooking(){
 
 function restoreBookings(){
     bookings = JSON.parse(sessionStorage.getItem("bookings"));
-    for (let i = 0; i < btns.length; i++) {
-        const btn = btns[i];
+    for (let i = 0; i < seatBtns.length; i++) {
+        const btn = seatBtns[i];
         if(bookings.find(b => b.seat == btn.id)){
             btn.classList.add("taken");
         }
@@ -285,8 +285,8 @@ function clearBooking (){
 
 function isOverbooked(){
     let seatsLeft = 0;
-    for (let i = 0; i < btns.length; i++) {
-        const element = btns[i];
+    for (let i = 0; i < seatBtns.length; i++) {
+        const element = seatBtns[i];
         if(!element.classList.contains("taken")){
             seatsLeft++;
         }
@@ -364,7 +364,7 @@ if(window.location.pathname.includes("/booking.html")){
     var nr = document.getElementById("personnr");
 
     var selectedSeat;
-    var btns = new Array();
+    var seatBtns = new Array();
     var bookings = new Array();
     
     document.getElementById("btn-clear").addEventListener("click", function(){
