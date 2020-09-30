@@ -150,17 +150,18 @@ function addEventListenerToSeatBtns (){
         element.addEventListener("click", function(){
             selectSeat(element);
             setSeatLabel(element);
-            setSelectedSeatButtonFocus(element);
             bookingButtonEnabler();
         });  
     }
 }
 
 function selectSeat(seat){
+    let previouslySelecedSeat;
     if(selectedSeat != undefined){
         previouslySelecedSeat = selectedSeat;
     }
     selectedSeat = seat;
+    setSelectedSeatButtonFocus(seat, previouslySelecedSeat);
 }
 
 function setSeatLabel(seat){
@@ -178,7 +179,7 @@ function setSeatLabel(seat){
     }
 }
 
-function setSelectedSeatButtonFocus(seat){
+function setSelectedSeatButtonFocus(seat, previouslySelecedSeat){
     if(previouslySelecedSeat != undefined)
         previouslySelecedSeat.classList.remove("focused");
     seat.classList.add("focused");
@@ -203,7 +204,6 @@ function clearSelectedSeat(){
     document.getElementById("seat-class").innerHTML="";
     selectedSeat.classList.remove("focused");
     selectedSeat = undefined;
-    previouslySelecedSeat = undefined;
 }
 
 function getBooking(){
@@ -362,7 +362,6 @@ if(window.location.pathname.includes("/booking.html")){
 
     var plane;
     var selectedSeat;
-    var previouslySelecedSeat;
     var seatBtns = new Array();
     var bookings = new Array();
     
