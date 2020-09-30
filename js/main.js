@@ -101,7 +101,8 @@ if(location.pathname.includes("/ourfleet.html")
 
 function onInit(){
     btnConfirm.disabled = true;
-    generateSeatButtons(getPlane());
+    plane = getPlane();
+    generateSeatButtons(plane);
     addEventListenerToSeatBtns();
     if(JSON.parse(sessionStorage.getItem("booking")) != null){
         restoreBooking();
@@ -167,7 +168,7 @@ function selectSeat(seat){
 
 function getTravelClass(seatNr){
     let travelClass = "Ekonomiklass";
-    if(seatNr <= (getPlane().seats * 2)){
+    if(seatNr <= (plane.seats * 2)){
         travelClass = "Affärsklass";
     }
     return travelClass;
@@ -187,7 +188,7 @@ function setSeatLabel(seat){
         seatLabel.innerHTML = "Platsen är upptagen";
     else {
         seatLabel.innerHTML = "Plats: " + seat.id + 
-            " <br>Rad: " + (Math.ceil(seat.id / getPlane().seats));
+            " <br>Rad: " + (Math.ceil(seat.id / plane.seats));
         seatClass.innerHTML = "<br>" + getTravelClass(seat.id); 
     }
 }
@@ -213,7 +214,7 @@ function saveBooking(){
             lastname: ln.value,
             personnr: nr.value,
             seat: selectedSeat.id,
-            row: Math.ceil(selectedSeat.id / getPlane().seats)
+            row: Math.ceil(selectedSeat.id / plane.seats)
         }
     } else{
         booking = {
@@ -359,6 +360,7 @@ if(window.location.pathname.includes("/booking.html")){
     var ln = document.getElementById("lastname");
     var nr = document.getElementById("personnr");
 
+    var plane;
     var selectedSeat;
     var previouslySelecedSeat;
     var seatBtns = new Array();
