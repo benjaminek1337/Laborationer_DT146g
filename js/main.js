@@ -203,6 +203,7 @@ function clearSelectedSeat(){
     document.getElementById("seat-class").innerHTML="";
     selectedSeat.classList.remove("focused");
     selectedSeat = undefined;
+    previouslySelecedSeat = undefined;
 }
 
 function getBooking(){
