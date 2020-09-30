@@ -229,11 +229,11 @@ th, td{
     background-color: lightcoral;
 }
 
-.seat-btn.enabled {
+.seat-btn.focused {
     background-color: lightblue;
 }
 
-.seat-btn.enabled.taken {
+.seat-btn.focused.taken {
     background-color: red;
 }
 

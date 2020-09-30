@@ -148,30 +148,21 @@ function addEventListenerToSeatBtns (){
         const element = seatBtns[i];
         element.addEventListener("click", function(){
             selectSeat(element);
-            seatButtonFocused(element);
             bookingButtonEnabler();
         });  
     }
 }
 
 function selectSeat(seat){
-    let seatLabel = document.getElementById("seat");
-    let seatClass = document.getElementById("seat-class");
-
     if (seat.classList.contains("taken")){
-        seatLabel.innerHTML = "Platsen är upptagen";
-        seatClass.innerHTML = "";
-        selectedSeat = undefined;
+        clearSelectedSeat();
     } else{
+        if(selectedSeat != undefined)
+            previouslySelecedSeat = selectedSeat;
         selectedSeat = seat;
-        seatLabel.innerHTML = "Plats: " + seat.id + 
-            " <br>Rad: " + (Math.ceil(seat.id / getPlane().seats)) ;
-        if(seat.id < 7){
-            seatClass.innerHTML = "<br>" + getTravelClass(seat.id);
-        } else{
-            seatClass.innerHTML = "<br>" + getTravelClass(seat.id);
-        }
+        seatButtonFocused();
     }
+    setSeatLabel(seat);
 }
 
 function getTravelClass(seatNr){
@@ -182,13 +173,22 @@ function getTravelClass(seatNr){
     return travelClass;
 }
 
-function seatButtonFocused(seat){
-    for (let i = 0; i < seatBtns.length; i++) {
-        const element = seatBtns[i];
-        element.classList.remove("enabled");
-        if(seat.id == element.id){
-            element.classList.add("enabled");
-        }
+function seatButtonFocused(){
+    if(previouslySelecedSeat != undefined)
+        previouslySelecedSeat.classList.remove("focused");
+    selectedSeat.classList.add("focused");
+}
+
+function setSeatLabel(seat){
+    let seatLabel = document.getElementById("seat");
+    let seatClass = document.getElementById("seat-class");
+
+    if(seat.classList.contains("taken"))
+        seatLabel.innerHTML = "Platsen är upptagen";
+    else {
+        seatLabel.innerHTML = "Plats: " + seat.id + 
+            " <br>Rad: " + (Math.ceil(seat.id / getPlane().seats));
+        seatClass.innerHTML = "<br>" + getTravelClass(seat.id); 
     }
 }
 
@@ -201,11 +201,8 @@ function takeSeat(){
 function clearSelectedSeat(){
     document.getElementById("seat").innerHTML="";
     document.getElementById("seat-class").innerHTML="";
-    
-    for (let i = 0; i < seatBtns.length; i++) {
-        const element = seatBtns[i];
-        element.classList.remove("enabled");
-    }
+    selectedSeat.classList.remove("focused");
+    selectedSeat = undefined;
 }
 
 function saveBooking(){
@@ -278,7 +275,6 @@ function clearBooking (){
     fn.value = "";
     ln.value = "";
     nr.value = "";
-    selectedSeat = undefined;
     clearSelectedSeat();
     bookingButtonEnabler();
 }
@@ -364,6 +360,7 @@ if(window.location.pathname.includes("/booking.html")){
     var nr = document.getElementById("personnr");
 
     var selectedSeat;
+    var previouslySelecedSeat;
     var seatBtns = new Array();
     var bookings = new Array();
     
