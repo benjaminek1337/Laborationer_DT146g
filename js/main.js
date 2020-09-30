@@ -149,6 +149,8 @@ function addEventListenerToSeatBtns (){
         const element = seatBtns[i];
         element.addEventListener("click", function(){
             selectSeat(element);
+            setSeatLabel(element);
+            setSelectedSeatButtonFocus(element);
             bookingButtonEnabler();
         });  
     }
@@ -159,14 +161,6 @@ function selectSeat(seat){
         previouslySelecedSeat = selectedSeat;
     }
     selectedSeat = seat;
-    setSeatLabel(seat);
-    seatButtonFocused(seat);
-}
-
-function seatButtonFocused(seat){
-    if(previouslySelecedSeat != undefined)
-        previouslySelecedSeat.classList.remove("focused");
-    seat.classList.add("focused");
 }
 
 function setSeatLabel(seat){
@@ -184,6 +178,12 @@ function setSeatLabel(seat){
     }
 }
 
+function setSelectedSeatButtonFocus(seat){
+    if(previouslySelecedSeat != undefined)
+        previouslySelecedSeat.classList.remove("focused");
+    seat.classList.add("focused");
+}
+
 function getTravelClass(seatNr){
     let travelClass = "Ekonomiklass";
     if(seatNr <= (plane.seats * 2)){
@@ -192,7 +192,7 @@ function getTravelClass(seatNr){
     return travelClass;
 }
 
-function takeSeat(){
+function setSelectedSeatTaken(){
     if(selectedSeat != null){
         selectedSeat.classList.add("taken");
     }
@@ -205,7 +205,7 @@ function clearSelectedSeat(){
     selectedSeat = undefined;
 }
 
-function saveBooking(){
+function getBooking(){
     let booking;
     if(selectedSeat != undefined){
         booking = {
@@ -225,19 +225,27 @@ function saveBooking(){
     return booking;
 }
 
-function doBooking (){
-    let booking = saveBooking();
+function setBooking (){
+    let booking = getBooking();
     
     if(!isOverbooked() && isFormFilled()){
         showTicket(booking);
         bookings.push(booking);
-        takeSeat();
+        setSelectedSeatTaken();
         clearBooking();
     }
 }
 
+function clearBooking (){
+    fn.value = "";
+    ln.value = "";
+    nr.value = "";
+    clearSelectedSeat();
+    bookingButtonEnabler();
+}
+
 function storeBooking(){
-    sessionStorage.setItem("booking", JSON.stringify(saveBooking()));
+    sessionStorage.setItem("booking", JSON.stringify(getBooking()));
 }
 
 function storeBookings(){
@@ -256,7 +264,7 @@ function restoreBooking(){
                 selectedSeat = element;
         }
         selectSeat(selectedSeat);
-        seatButtonFocused(selectedSeat);
+        setSelectedSeatButtonFocus(selectedSeat);
     }
     bookingButtonEnabler();
 }
@@ -269,14 +277,6 @@ function restoreBookings(){
             btn.classList.add("taken");
         }
     }
-}
-
-function clearBooking (){
-    fn.value = "";
-    ln.value = "";
-    nr.value = "";
-    clearSelectedSeat();
-    bookingButtonEnabler();
 }
 
 function isOverbooked(){
@@ -371,7 +371,7 @@ if(window.location.pathname.includes("/booking.html")){
     });
     
     btnConfirm.addEventListener("click", function(){
-        doBooking();
+        setBooking();
     });
 
     fn.addEventListener("keyup", function(){
