@@ -155,15 +155,33 @@ function addEventListenerToSeatBtns (){
 }
 
 function selectSeat(seat){
-    if (seat.classList.contains("taken")){
-        clearSelectedSeat();
-    } else{
-        if(selectedSeat != undefined)
-            previouslySelecedSeat = selectedSeat;
-        selectedSeat = seat;
-        seatButtonFocused();
+    if(selectedSeat != undefined){
+        previouslySelecedSeat = selectedSeat;
     }
+    selectedSeat = seat;
     setSeatLabel(seat);
+    seatButtonFocused(seat);
+}
+
+function seatButtonFocused(seat){
+    if(previouslySelecedSeat != undefined)
+        previouslySelecedSeat.classList.remove("focused");
+    seat.classList.add("focused");
+}
+
+function setSeatLabel(seat){
+    let seatLabel = document.getElementById("seat");
+    let seatClass = document.getElementById("seat-class");
+    
+    if(seat.classList.contains("taken")){
+        seatLabel.innerHTML = "Platsen är upptagen";
+        seatClass.innerHTML = "";
+    }
+    else {
+        seatLabel.innerHTML = "Plats: " + seat.id + 
+        " <br>Rad: " + (Math.ceil(seat.id / plane.seats));
+        seatClass.innerHTML = "<br>" + getTravelClass(seat.id); 
+    }
 }
 
 function getTravelClass(seatNr){
@@ -172,25 +190,6 @@ function getTravelClass(seatNr){
         travelClass = "Affärsklass";
     }
     return travelClass;
-}
-
-function seatButtonFocused(){
-    if(previouslySelecedSeat != undefined)
-        previouslySelecedSeat.classList.remove("focused");
-    selectedSeat.classList.add("focused");
-}
-
-function setSeatLabel(seat){
-    let seatLabel = document.getElementById("seat");
-    let seatClass = document.getElementById("seat-class");
-
-    if(seat.classList.contains("taken"))
-        seatLabel.innerHTML = "Platsen är upptagen";
-    else {
-        seatLabel.innerHTML = "Plats: " + seat.id + 
-            " <br>Rad: " + (Math.ceil(seat.id / plane.seats));
-        seatClass.innerHTML = "<br>" + getTravelClass(seat.id); 
-    }
 }
 
 function takeSeat(){

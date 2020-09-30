@@ -233,7 +233,7 @@ th, td{
     background-color: lightblue;
 }
 
-.seat-btn.focused.taken {
+.seat-btn.taken.focused {
     background-color: red;
 }
 
