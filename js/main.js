@@ -113,7 +113,7 @@ function onInit(){
 }
 
 function getPlane(){
-    return {rows:6, seats:3}
+    return {rows:6, seatsPerRow:3}
 }
 
 function generateSeatButtons(plane){
@@ -123,7 +123,7 @@ function generateSeatButtons(plane){
     let tableBody = document.createElement("tbody");
     for (let i = 0; i < plane.rows; i++) {
         let row = document.createElement("tr");
-        for (let j = 0; j < plane.seats; j++) {
+        for (let j = 0; j < plane.seatsPerRow; j++) {
             let cell = document.createElement("td");
             let seatBtn = document.createElement("button");
             let btnText = document.createTextNode((counter + 1).toString());
@@ -174,7 +174,7 @@ function setSeatLabel(seat){
     }
     else {
         seatLabel.innerHTML = "Plats: " + seat.id + 
-        " <br>Rad: " + (Math.ceil(seat.id / plane.seats));
+        " <br>Rad: " + (Math.ceil(seat.id / plane.seatsPerRow));
         seatClass.innerHTML = "<br>" + getTravelClass(seat.id); 
     }
 }
@@ -187,7 +187,7 @@ function setSelectedSeatButtonFocus(seat, previouslySelecedSeat){
 
 function getTravelClass(seatNr){
     let travelClass = "Ekonomiklass";
-    if(seatNr <= (plane.seats * 2)){
+    if(seatNr <= (plane.seatsPerRow * 2)){
         travelClass = "Affärsklass";
     }
     return travelClass;
@@ -214,7 +214,7 @@ function getBooking(){
             lastname: ln.value,
             personnr: nr.value,
             seat: selectedSeat.id,
-            row: Math.ceil(selectedSeat.id / plane.seats)
+            row: Math.ceil(selectedSeat.id / plane.seatsPerRow)
         }
     } else{
         booking = {
