@@ -1,8 +1,24 @@
 
 window.onload = function(){
 
-//#region Labb 2
+//Current window location pathname
+const path = window.location.pathname;
 
+//Startup function which calls functions depending on the pathname
+function start(){
+    if(path.includes("/contact.html")){
+        getBrowserName();
+    }
+    else if(path.includes("/ourfleet.html") || path.includes("/employees.html")){
+        imgPreloader();
+        addClickEventToThumbnails();
+    }
+    else if(path.includes("/booking.html")){
+        onInit();
+    }
+}    
+
+//Checks for current browser, adds it to the DOM element sBrowser
 function getBrowserName() {
     let sBrowser = document.getElementById("browser-text");
 
@@ -35,15 +51,20 @@ function getBrowserName() {
     }
 }
 
-if(window.location.pathname.includes("/contact.html")){
-    document.getElementById("browser-text").addEventListener("load", getBrowserName(), false);
-}
-//#endregion
-
 //#region Labb 3
 
+if(path.includes("/ourfleet.html") || path.includes("/employees.html")){
+    var imgPaths = new Array();
+    //Array of the big images
+    var img = new Array();
+}
+//Array of relative paths to the big images
+
+//Determines which images (and corresponding image paths) should be preloaded by
+//checking current location path. Fills relative paths into imgPaths.
+//loads the img array with the images from the relative paths
 function imgPreloader(){
-    if(window.location.pathname.includes("/ourfleet.html")){
+    if(path.includes("/ourfleet.html")){
         
         imgPaths = [
             "./img/plane1.jpg",
@@ -52,7 +73,7 @@ function imgPreloader(){
             "./img/plane4.jpg"
         ]; 
     }
-    else if(location.pathname.includes("/employees.html")){
+    else if(path.includes("/employees.html")){
         imgPaths = [
             "./img/employee1.jpg",
             "./img/employee2.jpg",
@@ -67,34 +88,28 @@ function imgPreloader(){
     }
 }
 
+//Function which recieves an imgsrc path, splits out the _thumb part, sets the
+//.bigImage DOM element source to the corresponding big image
 function imageSelector(imgThumb){
-    
-    var imgPath = imgThumb.split("_thumb")[0] + imgThumb.split("_thumb")[1];
-    var imgsrc = img.find(a => a.src == imgPath);
+    const imgPath = imgThumb.split("_thumb")[0] + imgThumb.split("_thumb")[1];
+    const imgsrc = img.find(a => a.src == imgPath);
 
     document.getElementById("bigImage").src = imgsrc.src;        
 }
 
-if(location.pathname.includes("/ourfleet.html") 
-|| location.pathname.includes("/employees.html")){
-    var imgPaths = new Array();
-    var img = new Array();
-
-    document.getElementById("img1").addEventListener("click", function(){
-        imageSelector(document.getElementById("img1").src)
-    });
-    document.getElementById("img2").addEventListener("click", function(){
-        imageSelector(document.getElementById("img2").src)
-    });
-    document.getElementById("img3").addEventListener("click", function(){
-        imageSelector(document.getElementById("img3").src)
-    });
-    document.getElementById("img4").addEventListener("click", function(){
-        imageSelector(document.getElementById("img4").src)
-    });
-    
-    window.addEventListener("load", imgPreloader(), false);
+//Function which adds all DOM elements of the class .image, which is the thumbnails,
+//and adds an eventlistener to every element, which calls function imageSelector
+//including the img src specific DOM element
+function addClickEventToThumbnails(){
+    let thumbArray = Array.from(document.querySelectorAll(".image"));
+    for (let i = 0; i < thumbArray.length; i++) {
+        const thumbnail = thumbArray[i];
+        thumbnail.addEventListener("click", function(){
+            imageSelector(document.getElementById("img" + (i+1)).src)
+        });
+    }
 }
+
 //#endregion
 
 //#region Labb 4
@@ -397,9 +412,9 @@ if(window.location.pathname.includes("/booking.html")){
         if(bookings != undefined)
             storeBookings();
     }
-
-    window.addEventListener("load", onInit(), false);
 }
 //#endregion
+
+    window.addEventListener("load", start(), false);
 }
 
