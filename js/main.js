@@ -17,7 +17,7 @@ function start(){
         onInit();
     }
 }    
-
+//#region Labb 2
 //Checks for current browser, adds it to the DOM element sBrowser
 function getBrowserName() {
     let sBrowser = document.getElementById("browser-text");
@@ -50,6 +50,7 @@ function getBrowserName() {
         sBrowser.innerHTML = "unknown";
     }
 }
+//#endregion
 
 //#region Labb 3
 
@@ -119,11 +120,11 @@ function onInit(){
     plane = getPlane();
     generateSeatButtons(plane);
     addEventListenerToSeatBtns();
-    if(JSON.parse(sessionStorage.getItem("booking")) != null){
-        restoreBooking();
-    }
     if(JSON.parse(sessionStorage.getItem("bookings")) != null){
         restoreBookings();
+    }
+    if(JSON.parse(sessionStorage.getItem("booking")) != null){
+        restoreBooking();
     }
 }
 
@@ -180,8 +181,8 @@ function selectSeat(seat){
 }
 
 function setSeatLabel(seat){
-    let seatLabel = document.getElementById("seat");
-    let seatClass = document.getElementById("seat-class");
+    const seatLabel = document.getElementById("seat");
+    const seatClass = document.getElementById("seat-class");
     
     if(seat.classList.contains("taken")){
         seatLabel.innerHTML = "Platsen är upptagen";
@@ -242,7 +243,7 @@ function getBooking(){
 }
 
 function setBooking (){
-    let booking = getBooking();
+    const booking = getBooking();
     
     if(!isOverbooked() && isFormFilled()){
         showTicket(booking);
@@ -269,7 +270,7 @@ function storeBookings(){
 }
 
 function restoreBooking(){
-    let booking = JSON.parse(sessionStorage.getItem("booking"));
+    const booking = JSON.parse(sessionStorage.getItem("booking"));
     fn.value = booking.firstname;
     ln.value = booking.lastname;
     nr.value = booking.personnr;
@@ -280,7 +281,7 @@ function restoreBooking(){
                 selectedSeat = element;
         }
         selectSeat(selectedSeat);
-        setSelectedSeatButtonFocus(selectedSeat);
+        setSeatLabel(selectedSeat);
     }
     bookingButtonEnabler();
 }
@@ -345,8 +346,8 @@ function bookingButtonEnabler(){
 }
 
 function showTicket(booking){
-    let win = window.open("", "Biljett", "resizable=yes,width=780,height=250");
-    let html = "<!DOCTYPE html>" +
+    const win = window.open("", "Biljett", "resizable=yes,width=780,height=250");
+    const html = "<!DOCTYPE html>" +
     "<html lang='en'>" +
     "<head>"+
         "<meta charset='UTF-8'>"+
@@ -368,7 +369,7 @@ function showTicket(booking){
     win.document.write(html);
 }
 
-if(window.location.pathname.includes("/booking.html")){
+if(path.includes("/booking.html")){
 
     var btnConfirm = document.getElementById("btn-confirm");
     var fn = document.getElementById("firstname");
@@ -414,7 +415,6 @@ if(window.location.pathname.includes("/booking.html")){
     }
 }
 //#endregion
-
     window.addEventListener("load", start(), false);
 }
 
