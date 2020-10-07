@@ -14,7 +14,7 @@ function start(){
         addClickEventToThumbnails();
     }
     else if(path.includes("/booking.html")){
-        onInit();
+        initializeBookingPage();
     }
 }    
 //#region Labb 2
@@ -115,7 +115,9 @@ function addClickEventToThumbnails(){
 
 //#region Labb 4
 
-function onInit(){
+//Function which initializes the page by calling functions related to plane loading
+//button generating, session restoring
+function initializeBookingPage(){
     btnConfirm.disabled = true;
     plane = getPlane();
     generateSeatButtons(plane);
@@ -128,10 +130,14 @@ function onInit(){
     }
 }
 
+//Function to get a plane object with a number of rows and seats per row
 function getPlane(){
     return {rows:6, seatsPerRow:3}
 }
 
+//Generates the seat buttons by creating DOM-elements and appending into each other
+//based on a table with grids and rows, filling them up with buttons in accordance
+//with number of rows and seats per row
 function generateSeatButtons(plane){
     let counter = 0;
     let container = document.querySelector("#seats");
@@ -159,6 +165,7 @@ function generateSeatButtons(plane){
     container.appendChild(table);
 }
 
+//Adds click event to buttons, and corresponding functions
 function addEventListenerToSeatBtns (){
     seatBtns = document.querySelectorAll(".seat-btn");
     for (let i = 0; i < seatBtns.length; i++) {
@@ -171,6 +178,8 @@ function addEventListenerToSeatBtns (){
     }
 }
 
+//Sets the selectedSeat variable to the currently selected seat btn
+//and sets the previously selected seat if applicable
 function selectSeat(seat){
     let previouslySelecedSeat;
     if(selectedSeat != undefined){
@@ -180,6 +189,8 @@ function selectSeat(seat){
     setSelectedSeatButtonFocus(seat, previouslySelecedSeat);
 }
 
+//Sets the DOM-labels containing info regarding seat, class and row
+//Detects if a seat is taken
 function setSeatLabel(seat){
     const seatLabel = document.getElementById("seat");
     const seatClass = document.getElementById("seat-class");
@@ -195,12 +206,15 @@ function setSeatLabel(seat){
     }
 }
 
+//Gives clicked seatbutton focus, removing focus from previously
+//clicked button 
 function setSelectedSeatButtonFocus(seat, previouslySelecedSeat){
     if(previouslySelecedSeat != undefined)
         previouslySelecedSeat.classList.remove("focused");
     seat.classList.add("focused");
 }
 
+//Function to get the travel class based on seatbuttons row
 function getTravelClass(seatNr){
     let travelClass = "Ekonomiklass";
     if(seatNr <= (plane.seatsPerRow * 2)){
@@ -209,12 +223,14 @@ function getTravelClass(seatNr){
     return travelClass;
 }
 
+//Sets the selected seat as taken
 function setSelectedSeatTaken(){
     if(selectedSeat != null){
         selectedSeat.classList.add("taken");
     }
 }
 
+//Clears the selected seat, and corresponding labels
 function clearSelectedSeat(){
     document.getElementById("seat").innerHTML="";
     document.getElementById("seat-class").innerHTML="";
@@ -222,6 +238,7 @@ function clearSelectedSeat(){
     selectedSeat = undefined;
 }
 
+//Generates a booking from input fields, and selected seat (if applicable)
 function getBooking(){
     let booking;
     if(selectedSeat != undefined){
@@ -242,6 +259,8 @@ function getBooking(){
     return booking;
 }
 
+//Gets the booking and pushes the booking to bookings array, calls functions to show ticket, 
+//take the seat and clears the form
 function setBooking (){
     const booking = getBooking();
     
@@ -253,6 +272,7 @@ function setBooking (){
     }
 }
 
+//Clears the forms inputs and selected seat
 function clearBooking (){
     fn.value = "";
     ln.value = "";
@@ -261,14 +281,17 @@ function clearBooking (){
     bookingButtonEnabler();
 }
 
+//Gets booking object and stores it to sessionstorage
 function storeBooking(){
     sessionStorage.setItem("booking", JSON.stringify(getBooking()));
 }
 
+//Stores bookings array into session storage
 function storeBookings(){
     sessionStorage.setItem("bookings", JSON.stringify(bookings));
 }
 
+//Restores booking from session storage, fills inputs and selects seat if applicable
 function restoreBooking(){
     const booking = JSON.parse(sessionStorage.getItem("booking"));
     fn.value = booking.firstname;
@@ -286,6 +309,7 @@ function restoreBooking(){
     bookingButtonEnabler();
 }
 
+//Restores bookings array, sets the buttons to taken status
 function restoreBookings(){
     bookings = JSON.parse(sessionStorage.getItem("bookings"));
     for (let i = 0; i < seatBtns.length; i++) {
@@ -296,6 +320,7 @@ function restoreBookings(){
     }
 }
 
+//Checks if plane is overbooked
 function isOverbooked(){
     let seatsLeft = 0;
     for (let i = 0; i < seatBtns.length; i++) {
@@ -311,14 +336,17 @@ function isOverbooked(){
     }
 }
 
+//Checks if a string is a name by regex
 function isName(name){
     return /^[a-ö ,.'-]+$/i.test(name);
 }
 
+//Checks if a string is a person nr (badly) by regex
 function isPersonNrCorrect(pnr){
     return /[0-9]{2}[0-1]{1}[0-9]{3}[-]{1}[0-9]{4}$/.test(pnr);
 }
 
+//Checks whether a correct seat is selected (not taken)
 function isSeatSelected(){
     if(selectedSeat == undefined || selectedSeat.classList.contains("taken")){
         return false;
@@ -326,6 +354,8 @@ function isSeatSelected(){
         return true;
     }
 }
+
+//Checks if form is correctly filled
 function isFormFilled(){
     if(isName(fn.value)
     && isName(ln.value)
@@ -337,6 +367,7 @@ function isFormFilled(){
     }
 }
 
+//Enables or disables the booking button based on the form filled method
 function bookingButtonEnabler(){
     if(isFormFilled()){
         btnConfirm.disabled = false;
@@ -345,6 +376,8 @@ function bookingButtonEnabler(){
     }
 }
 
+//Generates a ticket by html and the booking object, opens a window and shoves the ticket html
+//to the new window
 function showTicket(booking){
     const win = window.open("", "Biljett", "resizable=yes,width=780,height=250");
     const html = "<!DOCTYPE html>" +
@@ -369,35 +402,47 @@ function showTicket(booking){
     win.document.write(html);
 }
 
+//Generates neccesary variables and click events based on the current path
 if(path.includes("/booking.html")){
 
+    //Gets dom elements
     var btnConfirm = document.getElementById("btn-confirm");
     var fn = document.getElementById("firstname");
     var ln = document.getElementById("lastname");
     var nr = document.getElementById("personnr");
 
+    //The "plane" containing rows and seats per row info
     var plane;
+    //The clicked seat button
     var selectedSeat;
+    //The array containing all the seatbuttons
     var seatBtns = new Array();
+    //The array containing alrrady booked seats
     var bookings = new Array();
     
+    //clear booking button, clears the form
     document.getElementById("btn-clear").addEventListener("click", function(){
         clearBooking();
         isFormFilled();
     });
     
+    //booking confirm button, oes the booking
     btnConfirm.addEventListener("click", function(){
         setBooking();
     });
 
+    //the first name input field, with keyup event listener
     fn.addEventListener("keyup", function(){
         bookingButtonEnabler();
     });
 
+    //the last name input field, with keyup event listener
     ln.addEventListener("keyup", function(){
         bookingButtonEnabler();
     });
 
+    //the person nr input field. adds a - between the birth date and the last numbers.
+    //also contains keyup event listener
     nr.maxLength = 11;
     nr.addEventListener("keyup", function(){
         var key = event.keyCode;
@@ -408,6 +453,7 @@ if(path.includes("/booking.html")){
         bookingButtonEnabler();
     });
 
+    //function to run on window unload (switching page, refreshing etc). stores the bookings
     window.onbeforeunload = function(){
         storeBooking();
         if(bookings != undefined)
@@ -415,6 +461,7 @@ if(path.includes("/booking.html")){
     }
 }
 //#endregion
+    //Event listner which triggers on window load
     window.addEventListener("load", start(), false);
 }
 
