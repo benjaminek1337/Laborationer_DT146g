@@ -38,6 +38,13 @@ Uppgifter som behövde utföras för att uppnå målet:
 - Skapa sessionstorage för att kunna spara bokningarna, samt pågående bokning
   så länge fliken i webbläsaren inte är stängd, och se till att allt laddas in
   vid sidladdning om det finns någon lagrad data
+
+### Revision
+- Kommenterat koden
+
+- Sett till att endast ett load event väntar i main.js
+
+- Reviderat labb 3s del av main.js i enighet med tidigare laboration
   
 
 ## Discussion / Diskussion
