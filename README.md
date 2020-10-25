@@ -45,6 +45,8 @@ Uppgifter som behövde utföras för att uppnå målet:
 - Sett till att endast ett load event väntar i main.js
 
 - Reviderat labb 3s del av main.js i enighet med tidigare laboration
+
+- Ändrat personnr-validatorn till att vara mer tillåtande i enighet med rätten till lika villkor
   
 
 ## Discussion / Diskussion
