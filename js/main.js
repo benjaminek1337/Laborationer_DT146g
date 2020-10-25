@@ -343,7 +343,7 @@ function isName(name){
 
 //Checks if a string is a person nr (badly) by regex
 function isPersonNrCorrect(pnr){
-    return /[0-9]{2}[0-1]{1}[0-9]{3}[-]{1}[0-9]{4}$/.test(pnr);
+    return /^[0-9 -]/.test(pnr);
 }
 
 //Checks whether a correct seat is selected (not taken)
